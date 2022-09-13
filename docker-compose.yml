@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+    bot:
+        build: .
+        command: python /zakovat_bot/app.py
+        volumes:
+            - .:/zakovat_bot
+        depends_on:
+            - db
+    db:
+        image: postgres:12
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        environment:
+            POSTGRES_HOST_AUTH_METHOD: "trust"
+
+volumes:
+    postgres_data:
