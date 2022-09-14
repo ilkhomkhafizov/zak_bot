@@ -24,8 +24,8 @@ async def statistic_command(message: types.Message):
             "updated_at": user.updated_at,
         })
     df = pd.DataFrame(data=users_arr)
-    df["created_at"] = df['created_at'].apply(lambda a: pd.to_datetime(a).isoformat())
-    df["updated_at"] = df['updated_at'].apply(lambda a: pd.to_datetime(a).isoformat())
+    df["created_at"] = df['created_at'].apply(lambda a: pd.to_datetime(a).tz_convert('Asia/Tashkent').isoformat())
+    df["updated_at"] = df['updated_at'].apply(lambda a: pd.to_datetime(a).tz_convert('Australia/Sydney').isoformat())
     df.to_excel('statistics.xlsx', index=False)
     excel_bytes = InputFile(path_or_bytesio='statistics.xlsx')
     await dp.bot.send_document(chat_id=message.chat.id,

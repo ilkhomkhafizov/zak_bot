@@ -8,9 +8,9 @@ async def on_startup(dp):
     from loader import db
     from utils.db_api.db_gino import on_startup
     await on_startup(dp)
-    print('Подключились к бд')
+    print('Подключились к бд ')
 
-    # await db.gino.drop_all()
+    await db.gino.drop_all()
     print('Удалили все из бд')
     await db.gino.create_all()
     print('Создали таблицу в бд')
