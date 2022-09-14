@@ -10,7 +10,7 @@ async def on_startup(dp):
     await on_startup(dp)
     print('Подключились к бд ')
 
-    await db.gino.drop_all()
+    # await db.gino.drop_all()
     print('Удалили все из бд')
     await db.gino.create_all()
     print('Создали таблицу в бд')
