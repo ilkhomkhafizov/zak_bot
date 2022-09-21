@@ -1,14 +1,14 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters import Command
 
 from filters import IsPrivate
+from .menu import javob
 from loader import dp
 from states import User
 from utils.db_api import register_commands
 
 
-@dp.message_handler(IsPrivate(), Command('register'))
+@dp.message_handler(IsPrivate(), text='Ro\'yhatdan o\'tish')
 async def register_command(message: types.Message):
     user = await register_commands.select_user_by_id(user_id=message.from_user.id)
     if user:
@@ -52,7 +52,4 @@ async def phone_command(message: types.Message, state: FSMContext):
                                      address=address, phone=phone)
 
     await state.finish()
-    await message.answer(text)
-
-
-
+    await message.answer(text, reply_markup=javob)

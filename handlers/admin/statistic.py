@@ -16,16 +16,18 @@ async def statistic_command(message: types.Message):
     users_arr = []
     for user in users:
         users_arr.append({
-            "full_name": user.full_name,
-            "address": user.address,
-            "phone": user.phone,
-            "answer": user.answer,
-            "created_at": user.created_at,
-            "updated_at": user.updated_at,
+            "fio": user.full_name,
+            "manzil": user.address,
+            "tel_raqami": user.phone,
+            "javoblar": user.answer,
+            "registrasiya_vaqti": user.created_at,
+            "javob_berish_vaqti": user.updated_at,
         })
     df = pd.DataFrame(data=users_arr)
-    df["created_at"] = df['created_at'].apply(lambda a: pd.to_datetime(a).tz_convert('Asia/Tashkent').isoformat())
-    df["updated_at"] = df['updated_at'].apply(lambda a: pd.to_datetime(a).tz_convert('Asia/Tashkent').isoformat())
+    df["registrasiya_vaqti"] = df['registrasiya_vaqti'].apply(lambda a: pd.to_datetime(a).
+                                                              tz_convert('Asia/Tashkent').isoformat())
+    df["javob_berish_vaqti"] = df['javob_berish_vaqti'].apply(lambda a: pd.to_datetime(a).
+                                                              tz_convert('Asia/Tashkent').isoformat())
     df.to_excel('statistics.xlsx', index=False)
     excel_bytes = InputFile(path_or_bytesio='statistics.xlsx')
     await dp.bot.send_document(chat_id=message.chat.id,

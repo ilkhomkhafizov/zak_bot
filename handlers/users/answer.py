@@ -1,6 +1,5 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters import Command
 
 from filters import IsPrivate
 from loader import dp
@@ -8,10 +7,11 @@ from states import Answer
 from utils.check_admin import check_auth
 from utils.db_api import question_commands, register_commands
 from utils.misc import rate_limit
+from .menu import javob
 
 
-@rate_limit(limit=120, key='/answer')
-@dp.message_handler(IsPrivate(), Command('answer'))
+@rate_limit(limit=30, key='/answer')
+@dp.message_handler(IsPrivate(), text='Javobni kiriting!')
 @check_auth
 async def answer_command(message: types.Message):
     questions = await question_commands.select_all_questions()
@@ -27,7 +27,7 @@ async def answer_command(message: types.Message):
         await message.answer('Javobni kiriting')
         await Answer.state.set()
     else:
-        await message.answer('Savollar hali yuq')
+        await message.answer('Savollar hali yuq', reply_markup=javob)
 
 
 @dp.message_handler(IsPrivate(), state=Answer.state)
@@ -39,4 +39,4 @@ async def answer_send_command(message: types.Message, state: FSMContext):
     await register_commands.update_answer(user_id=message.from_user.id, answer=answer)
 
     await state.finish()
-    await message.answer(text)
+    await message.answer(text, reply_markup=javob)
