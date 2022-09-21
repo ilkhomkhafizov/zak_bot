@@ -12,7 +12,7 @@ from utils.db_api import register_commands
 async def register_command(message: types.Message):
     user = await register_commands.select_user_by_id(user_id=message.from_user.id)
     if user:
-        await message.answer("Siz registrasiya bo'lgansiz")
+        await message.answer("Siz registrasiya bo'lgansiz", reply_markup=javob)
     else:
         text = f'Zakovat ishtirokchisining ismi, \n' \
                f'familiyasi va otasining ismi:'
